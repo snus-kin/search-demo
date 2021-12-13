@@ -1,1 +1,1 @@
-from demo import SearchDemo
+from . import SearchDemo
