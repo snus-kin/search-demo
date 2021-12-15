@@ -1,3 +1,10 @@
+"""
+    Super simple curses fzf-like demo to demo a function that
+    returns an iterable
+
+    Run a function on a string input with every character pressed,
+    enter breaks and returns the results
+"""
 import curses
 import time
 
@@ -11,35 +18,43 @@ class SearchDemo:
     """
     def __init__(self, function):
         self.function = function
-        curses.wrapper(self.main)
+
+    def run_demo(self):
+        """ Run the demo """
+        return curses.wrapper(self.main)
 
     def main(self, stdscr):
+        """
+            Main curses loop
+        """
         search_string = ""
+        results = []
         while True:
             char = stdscr.getkey()
 
             if char == "\n":
-                search_string = ""
-            elif char == "KEY_BACKSPACE":
+                return results
+
+            if char == "KEY_BACKSPACE":
                 search_string = search_string[:-1]
-            elif char == "q":
-                break
             else:
                 search_string += char
 
-            ts = time.perf_counter()
-            try:
-                res = self.function(search_string)
-            except TypeError:
-                res = "ERROR: check function returns iterable"
-            te = time.perf_counter()
-            t = str(te - ts)
+            t_s = time.perf_counter()
+            results = self.function(search_string)
+            t_e = time.perf_counter()
+            total_time = str(t_e - t_s)
 
             stdscr.clear()
             stdscr.addstr(search_string, curses.A_BOLD)
-            for r in res:
+            try:
+                for result in results:
+                    stdscr.addstr("\n")
+                    stdscr.addstr(result)
+            except TypeError:
                 stdscr.addstr("\n")
-                stdscr.addstr(r)
+                stdscr.addstr("""ERROR: ensure tht your function returns
+                              an iterable""")
             stdscr.addstr("\n")
-            stdscr.addstr(f"Query took: {t}")
+            stdscr.addstr(f"Function took: {total_time}")
             stdscr.refresh()
