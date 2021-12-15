@@ -28,7 +28,10 @@ class SearchDemo:
                 search_string += char
 
             ts = time.perf_counter()
-            res = self.function(search_string)
+            try:
+                res = self.function(search_string)
+            except TypeError:
+                res = "ERROR: check function returns iterable"
             te = time.perf_counter()
             t = str(te - ts)
 
