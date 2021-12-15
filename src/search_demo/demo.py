@@ -56,5 +56,5 @@ class SearchDemo:
                 stdscr.addstr("""ERROR: ensure tht your function returns
                               an iterable""")
             stdscr.addstr("\n")
-            stdscr.addstr(f"Function took: {total_time}")
+            stdscr.addstr(f"Function took: {total_time}", curses.A_ITALIC)
             stdscr.refresh()
