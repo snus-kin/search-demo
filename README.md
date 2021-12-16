@@ -2,6 +2,9 @@
 Extremely simple python-curses search demo that runs a function on every
 character input and shows / returns the results.
 
+Install using pip!
+`pip install search-demo`
+
 ## How to use
 This assumes that you have a function that outputs an iterable (list, tuple,
 etc.) and takes in a string.
